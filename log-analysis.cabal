@@ -26,6 +26,8 @@ source-repository head
 library
   exposed-modules:
       Lib
+      Log
+      LogAnalysis
   other-modules:
       Paths_log_analysis
   hs-source-dirs:
