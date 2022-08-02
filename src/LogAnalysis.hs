@@ -1,19 +1,19 @@
 module LogAnalysis where
 
 import Log
+import Data.List.Split (splitOn)
+import Debug.Trace
 
 --parseMessage :: String -> LogMessage
-
 -- parseMessage line = LogMessage
 
-checkMessageType :: String -> MessageType
+checkMessageType :: String -> Maybe MessageType
 
-checkMessageType line = identifyMessageType (take 1 line)
-  
+checkMessageType ('I':_) = Just Info
+checkMessageType ('W':_) = Just Warning
+checkMessageType ('E':xs) = let errorArray = drop 1 (splitOn " " xs) -- drop empty string 
+  in Just (Error (read (head errorArray)))
+checkMessageType _ = Nothing
 
-identifyMessageType :: String -> MessageType
-identifyMessageType "I" = Info
-identifyMessageType "W" = Warning
-identifyMessageType "E" = Error 0 -- error int is 0 for now
 
 
