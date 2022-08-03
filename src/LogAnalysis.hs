@@ -19,11 +19,23 @@ getTimeStamp ('E':xs) = extractTimeStampFromError xs
 extractTimeStampFromInfoOrWarning :: String -> TimeStamp
 extractTimeStampFromInfoOrWarning line = read (head (drop 1 (splitOn " " line)))
 
+getString :: String -> String
+getString line 
+  | head line == 'I' || head line == 'W' = concatStringsInArrayWithSpace (drop 2 (splitOn " " line))
+  | head line == 'E' = concatStringsInArrayWithSpace (drop 3 (splitOn " " line))
+  | otherwise = line 
+
+concatStringsInArrayWithSpace :: [String] -> String
+concatStringsInArrayWithSpace xs = drop 1 (foldl (\a b -> (++)((++) a " ") b) "" xs)
+
 extractTimeStampFromError :: String -> TimeStamp
 extractTimeStampFromError line = read (head (drop 2 (splitOn " " line)))
 
---parseMessage :: String -> LogMessage
---parseMessage line = LogMessage (checkMessageType line) (getTimeStamp line) 
+parseMessage :: String -> LogMessage
 
-
+parseMessage line = let msgType = checkMessageType line
+  in 
+    case msgType of
+      Just t -> LogMessage t (getTimeStamp line) (getString line) 
+      Nothing -> Unknown (getString line)
 
