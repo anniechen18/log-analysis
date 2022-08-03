@@ -31,11 +31,17 @@ concatStringsInArrayWithSpace xs = drop 1 (foldl (\a b -> (++)((++) a " ") b) ""
 extractTimeStampFromError :: String -> TimeStamp
 extractTimeStampFromError line = read (head (drop 2 (splitOn " " line)))
 
+-- Parse one log message
 parseMessage :: String -> LogMessage
-
 parseMessage line = let msgType = checkMessageType line
   in 
     case msgType of
       Just t -> LogMessage t (getTimeStamp line) (getString line) 
       Nothing -> Unknown (getString line)
 
+-- Parse entire log file
+parse :: String -> [LogMessage]
+parse fileContent = let logMessages = lines fileContent
+  in map (\a -> parseMessage a) logMessages
+
+     
