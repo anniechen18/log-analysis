@@ -40,6 +40,6 @@ parseMessage line =
 -- Parse entire log file
 parse :: String -> [LogMessage]
 parse fileContent = let logMessages = lines fileContent
-  in map (\a -> parseMessage a) logMessages
+  in map parseMessage logMessages
 
      
