@@ -42,4 +42,21 @@ parse :: String -> [LogMessage]
 parse fileContent = let logMessages = lines fileContent
   in map parseMessage logMessages
 
-     
+-- Insert messages in order using binary search tree structure
+insert :: LogMessage -> MessageTree -> MessageTree
+insert (Unknown _) msgTree = msgTree 
+insert message Leaf = Node Leaf message Leaf
+insert (LogMessage insertMsgType insertTs insertS) (Node leftTree (LogMessage msgType ts s) rightTree) = 
+  if (insertTs < ts)
+  then Node (insert (LogMessage insertMsgType insertTs insertS) leftTree) (LogMessage msgType ts s) rightTree
+  else Node leftTree (LogMessage msgType ts s) (insert (LogMessage insertMsgType insertTs insertS) rightTree)
+
+build :: [LogMessage] -> MessageTree
+build messages = foldr insert Leaf messages
+
+inOrder :: MessageTree -> [LogMessage]
+inOrder Leaf = []
+inOrder (Node leftTree message rightTree) = (inOrder leftTree) ++ [message] ++ (inOrder rightTree) 
+
+
+ 
