@@ -13,7 +13,7 @@ checkMessageType _ = Nothing
 getTimeStamp :: String -> Maybe TimeStamp
 getTimeStamp ('I':xs) = Just $ extractTimeStampFromInfoOrWarning xs 
 getTimeStamp ('W':xs) = Just $ extractTimeStampFromInfoOrWarning xs
-getTimeStamp ('E':xs) = Just $extractTimeStampFromError xs 
+getTimeStamp ('E':xs) = Just $ extractTimeStampFromError xs 
 getTimeStamp _ = Nothing
 
 extractTimeStampFromInfoOrWarning :: String -> TimeStamp
