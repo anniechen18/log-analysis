@@ -1,6 +1,7 @@
-module Spec where
+module Test where
 
 import LogAnalysis (inOrder, build, parse)
+import Log
 
 -- | @testParse p n f@ tests the log file parser @p@ by running it
 --   on the first @n@ lines of file @f@.
@@ -20,6 +21,6 @@ testWhatWentWrong :: (String -> [LogMessage])
 testWhatWentWrong parse whatWentWrong file
   = whatWentWrong . parse <$> readFile file
 
-testInOrder :: Int -> FilePath -> IO [LogMessage]
-testInOrder n file = inOrder $ build $ take n . parse <$> readFile file
+--testInOrder :: Int -> FilePath -> [LogMessage]
+--testInOrder n file = inOrder $ build $ take n . parse <$> readFile file
 

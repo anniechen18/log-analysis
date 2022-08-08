@@ -51,12 +51,25 @@ insert (LogMessage insertMsgType insertTs insertS) (Node leftTree (LogMessage ms
   then Node (insert (LogMessage insertMsgType insertTs insertS) leftTree) (LogMessage msgType ts s) rightTree
   else Node leftTree (LogMessage msgType ts s) (insert (LogMessage insertMsgType insertTs insertS) rightTree)
 
+-- Build log messages into a BST tree
 build :: [LogMessage] -> MessageTree
 build messages = foldr insert Leaf messages
 
+-- Return log messages in order of itmestamp
 inOrder :: MessageTree -> [LogMessage]
 inOrder Leaf = []
 inOrder (Node leftTree message rightTree) = (inOrder leftTree) ++ [message] ++ (inOrder rightTree) 
 
+takeErrorLevel50AboveOnly :: LogMessage -> Bool
+takeErrorLevel50AboveOnly (LogMessage (Error level) ts s) = level >= 50
+takeErrorLevel50AboveOnly _ = False
 
- 
+getStringFromLogMessage :: LogMessage -> String
+getStringFromLogMessage (LogMessage msgType ts s) = s
+getStringFromLogMessage (Unknown s) = s
+
+-- Return list of error message strings in order of timestamp, or errors 50 or above
+whatWentWrong :: [LogMessage] -> [String] 
+whatWentWrong [] = []
+whatWentWrong logMessages = let errorMessages = filter takeErrorLevel50AboveOnly logMessages
+  in map getStringFromLogMessage (inOrder $ build errorMessages)
