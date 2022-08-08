@@ -73,3 +73,5 @@ whatWentWrong :: [LogMessage] -> [String]
 whatWentWrong [] = []
 whatWentWrong logMessages = let errorMessages = filter takeErrorLevel50AboveOnly logMessages
   in map getStringFromLogMessage (inOrder $ build errorMessages)
+
+-- TODO: refactor unknown

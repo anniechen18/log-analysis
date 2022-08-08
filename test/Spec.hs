@@ -1,6 +1,8 @@
-module Spec where
+import LogAnalysis
+import Log
 
-import LogAnalysis (inOrder, build, parse)
+main :: IO ()
+main = putStrLn "Test suite not yet implemented"
 
 -- | @testParse p n f@ tests the log file parser @p@ by running it
 --   on the first @n@ lines of file @f@.
@@ -20,6 +22,4 @@ testWhatWentWrong :: (String -> [LogMessage])
 testWhatWentWrong parse whatWentWrong file
   = whatWentWrong . parse <$> readFile file
 
-testInOrder :: Int -> FilePath -> IO [LogMessage]
-testInOrder n file = inOrder $ build $ take n . parse <$> readFile file
-
+-- add tests by having output files to compare to

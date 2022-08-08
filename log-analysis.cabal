@@ -28,7 +28,6 @@ library
       Lib
       Log
       LogAnalysis
-      Test
   other-modules:
       Paths_log_analysis
   hs-source-dirs:
